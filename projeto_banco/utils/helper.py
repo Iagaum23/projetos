@@ -1,10 +1,13 @@
 from datetime import datetime, date
 from collections import defaultdict, deque
+from typing import Union
 
 
-def str_para_date(data: str) -> date:
-    return datetime.strptime(data, '%d/%m/%Y')
-
+def str_para_date(data: str) -> Union[date, bool]:
+    try:
+        return datetime.strptime(data, '%d/%m/%Y')
+    except ValueError:
+        return False
 
 def date_para_str(data: date) -> str:
     return data.strftime('%d/%m/%Y')
@@ -27,6 +30,8 @@ def verif_cpf(pass_cpf: str) -> bool:
     if pass_cpf == "111111111111" or pass_cpf == "22222222222" or pass_cpf == "33333333333" or pass_cpf ==\
             "44444444444" or pass_cpf == "55555555555" or pass_cpf == "66666666666"\
             or pass_cpf == "77777777777" or pass_cpf == "88888888888" or pass_cpf == "99999999999":
+        return False
+    if len(pass_cpf) < 10:
         return False
     cpfv: list = deque(pass_cpf)
     contador: int = 11

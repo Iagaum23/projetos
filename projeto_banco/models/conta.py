@@ -7,11 +7,12 @@ from datetime import datetime
 
 class Conta:
 
-    contador = 1
+    contador: int = 1
 
-    def __init__(self: object, cliente: Cliente) -> None:
+    def __init__(self: object, cliente: Cliente, senha: str) -> None:
         self.__numero: int = Conta.contador
         self.__cliente: Cliente = cliente
+        self.__senha: str = senha
         self.__saldo: float = 0.0
         self.__limite: float = 100.0
         self.__saldo_total: float = self._calcula_saldo_total
@@ -31,9 +32,13 @@ class Conta:
         return self.__cliente
 
     @property
+    def senha(self: object):
+        return self.__senha
+
+    @property
     def cliente_nome(self: object) -> object:
         return self.__cliente.nome
-
+    
     @property
     def saldo(self: object):
         return self.__saldo
@@ -65,7 +70,7 @@ class Conta:
 
     def depositar(self: object, valor: float) -> str:
         self.__extrato[date_para_str(datetime.now())] = (f'Conta no nome de: {self.cliente.nome}|Saldo anterior:{self.saldo}'\
-                                                                  f'|Saldo depois do deposito:{self.saldo+valor}')
+                                                         f'|Saldo depois do deposito:{self.saldo+valor}')
         self.saldo = self.saldo + valor 
         return f'O valor de R${valor} foi depositado na conta com sucesso.'
 
@@ -73,7 +78,7 @@ class Conta:
         if self.saldo < valor:
             return 'Saldo menor que o valor de saque.'
         self.__extrato[date_para_str(datetime.now())] = (f'Conta no nome de: {self.cliente.nome}|Saldo anterior:{self.saldo}'\
-                                                                  f'|Saldo depois do saque:{self.saldo - valor}')
+                                                         f'|Saldo depois do saque:{self.saldo - valor}')
         self.saldo = self.saldo - valor 
         return f'O valor de R${valor} foi depositado na conta com sucesso.'
     
@@ -81,12 +86,10 @@ class Conta:
         transf_taxa = 1.10 
         if self.saldo < valor:
             return 'Saldo menor que o valor de da transferência.'
-        self.__extrato[date_para_str(datetime.now())] = (f'Conta no nome de: {self.cliente.nome}|Saldo anterior:{self.saldo}|'\
-                                                                  f'|Saldo depois da transferência:{self.saldo - valor}|'\
-                                                                  f'Conta do beneficiário: {conta_final.cliente.nome}')
+        self.__extrato[date_para_str(datetime.now())] = (f'Conta no nome de:{self.cliente.nome} transferiu {valor} para {conta_final.cliente.nome}'\
+                                                         f'|Saldo antes da transferência:{self.saldo}|Saldo depois da transferência:{self.saldo - valor}|')
         self.saldo = self.saldo - (valor * transf_taxa)
-        conta_final.__extrato[date_para_str(datetime.now())] = (f'Conta no nome de: {conta_final.cliente.nome}|Saldo anterior:{conta_final.saldo}'\
-                                                          f'|Saldo depois da transferência:{conta_final.saldo + valor}'\
-                                                          f'|Conta do beneficiário: {self.cliente.nome}')
+        conta_final.__extrato[date_para_str(datetime.now())] = (f'Conta no nome de: {conta_final.cliente.nome} recebeu uma transferência de: {self.__cliente.nome}'\
+                                                                f'|Saldo anterior:{conta_final.saldo}|Saldo depois da transferência:{conta_final.saldo + valor}')
         conta_final.saldo += valor 
         return f'O valor de R${valor} foi transferido com sucesso.'
