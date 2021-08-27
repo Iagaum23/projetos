@@ -4,6 +4,8 @@ from models.cliente import Cliente
 from models.conta import Conta
 from utils.helper import verif_cpf, str_para_date
 from os import system
+import sys
+
 
 contas: List[Conta] = []
 
