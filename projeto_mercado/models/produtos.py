@@ -5,11 +5,11 @@ class Produtos:
 
     produtos_cadastrados: int = 1
 
-    def __init__(self, nome: str, unidades_lotes: int, valor_compra: float, valor_venda: float):
+    def __init__(self, *,  nome: str, unidades_lotes: int, valor_compra: float, valor_venda: float):
         self.__nome: str = nome
         self.__unidades_lotes: int = unidades_lotes
-        self.__valor_compra: float = float_para_moeda(valor_compra)
-        self.__valor_venda: float = float_para_moeda(valor_venda)
+        self.__valor_compra: float = valor_compra
+        self.__valor_venda: float = valor_venda
         self.__horario_de_att: date = datetime.now()
         self.__id_produto: int = Produtos.produtos_cadastrados
         Produtos.produtos_cadastrados = self.id_produto + 1
@@ -48,8 +48,9 @@ class Produtos:
             if cont:= int(input('Deseja continuar a fazer alterações no produto?\n 1) Sim\n2)Não ')) == 1:
                 break
     
-    def venda_produto(self: object, qtd: int):
-        pass 
+    def venda_produto(self: object, qtd: int) -> float:
+        self.__unidades_lotes = self.unidades_lotes - qtd
+        return float(self.valor_venda)
     
     def __len__(self: object) -> int:
         return Produtos.produtos_cadastrados
