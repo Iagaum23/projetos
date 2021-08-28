@@ -106,9 +106,8 @@ def buscar_conta_por_numero(numero: int) -> Cliente:
         if numero == conta.numero_conta:
             pass_conta =  conta
             return pass_conta
-    else: 
-        print('A conta não está cadastrada. Sendo redirecionado')
-        menu()
+    print('A conta não está cadastrada. Sendo redirecionado')
+    menu()
 
 
 def main() -> None:
@@ -129,3 +128,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+    

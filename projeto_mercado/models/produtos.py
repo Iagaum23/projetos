@@ -19,6 +19,10 @@ class Produtos:
         return self.__nome
     
     @property
+    def id_produto(self: object) -> int:
+        return self.__id_produto
+
+    @property
     def valor_compra(self: object) -> float:
         return self.__valor_compra
 
@@ -30,7 +34,7 @@ class Produtos:
     def unidades_lotes(self: object) -> int:
         return self.__unidades_lotes
     
-    def att_produto(self: object, nome: str, id: int) -> None:
+    def att_produto(self: object, id: int) -> None:
         while True:
             opcao = int(input('O que será atualizado no produto\n1) Preço:   2)Quantidade\n'))
             if opcao == 1:
@@ -43,11 +47,14 @@ class Produtos:
                 self.__horario_de_att = datetime.now()
             if cont:= int(input('Deseja continuar a fazer alterações no produto?\n 1) Sim\n2)Não ')) == 1:
                 break
-
+    
+    def venda_produto(self: object, qtd: int):
+        pass 
+    
     def __len__(self: object) -> int:
         return Produtos.produtos_cadastrados
 
-    def __str__(self: object) -> str:
+    def __str__(self: object, unidades_compradas: int) -> str:
         return f'Nome do produto:{self.nome}|Preço de venda do produto:{self.valor_venda}|Preço de compra do produto:{self.valor_compra}'\
-               f'\nUnidades do Produto:{self.unidades_lotes}'
+               f'\nUnidades totais do Produto:{self.unidades_lotes}\nUnidades compradas: {unidades_compradas}'
         
