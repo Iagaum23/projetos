@@ -1,10 +1,12 @@
 from models.produtos import Produtos
+from utils.helper import float_para_moeda
 from typing import List
 from os import system
 from time import sleep
 import sys
 
 produtos: List[Produtos] = []
+
 
 def cadastro_produto() -> None:
     while True:
@@ -22,7 +24,11 @@ def cadastro_produto() -> None:
                                    valor_venda=valor_venda_produto, unidades_lotes=quantidade_produto)
                 produtos.append(produto)
                 break
+        sleep(0.5)
+        system('cls')
         opc = int(input('Deseja continuar adicionando produtos?\n1)Sim\n2)Não\nR:'))
+        sleep(0.5)
+        system('cls')
         if opc == 2:
             break
     
@@ -32,19 +38,24 @@ def venda() -> None:
     while True:
         id_produto = int(input('Insira o ID do Produto:'))
         produto_comprar = achar_produto(id_produto)
+        print(f'\nInformações do Produto:\nNome:{produto_comprar.nome}\n'\
+              f'Preço:{float_para_moeda(produto_comprar.valor_venda)}\n')
         quantidade = int(input('Insira a quantidade do produto:'))
         valor_produto: float = produto_comprar.venda_produto(quantidade)
         carrinho[produto_comprar.nome] = float(valor_produto)
-        print(carrinho[produto_comprar.nome])
-        opcao = int(input('Deseja continuar adicionando produtos:\n1)Sim\n2)Não\nR:'))
+        opcao = int(input('\nDeseja continuar adicionando produtos:\n1)Sim\n2)Não\nR:'))
         sleep(0.5)
         system('cls')
         if opcao == 2:
             break
-    print(carrinho.values())
-    print(f'Valor total: {sum(carrinho.values())}')
+    cpf = input('Deseja colocar CPF na nota? (Digite o CPF caso queira)\nCPF:')
+    system('cls')
     for produto, valor in carrinho.items():
-        print(f'Todos os produtos com os valores equivalentes:{dict(carrinho)}')
+        print(f'Todos os produtos com os valores equivalentes:\nProduto:{produto}|Valor:{float_para_moeda(valor)}')
+    print(f'Valor total: {float_para_moeda(sum(carrinho.values()))}\nCPF:{cpf}')
+    input('Para continuar, pressione enter:')
+    sleep(0.5)
+    system('cls')
     
 
 def achar_produto(id_produto_recebido: int) -> Produtos:
@@ -59,12 +70,14 @@ def achar_produto(id_produto_recebido: int) -> Produtos:
 def main() -> None:
     while True:
         print('------------------ Mercado do Rosário ------------------\n')
-        opcao = int(input('1)Adicionar Produto\n2)Atualizar Produto:\n3)Realizar Venda\n4)Sair\nR:'))
+        opcao = int(input('1)Adicionar Produto\n2)Atualizar Produto:\n3)Realizar Venda\n4)Verificar Produtos Cadastrados'\
+                          '\n5)Sair\nR:'))
         if opcao == 1:
             print('\nVocê está sendo direcionado para a tela de cadastro de produtos.')
-            sleep(1.5)
+            sleep(1.0)
             system('cls')
             cadastro_produto()
+            system('cls')
         if opcao == 2:
             id_produto = int(input('Insira o ID do produto:'))
             sleep(1.5)
@@ -77,6 +90,12 @@ def main() -> None:
             system('cls')
             venda()
         if opcao == 4:
+            sleep(1.5)
+            system('cls')
+            for produto in produtos:
+                print(produto)
+            input('Pressione uma tecla para retornar ao menu inicial.')
+        if opcao == 5:
             print('\nVocê está saindo do programa!')
             sleep(1.5)
             system('cls')

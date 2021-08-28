@@ -34,18 +34,18 @@ class Produtos:
     def unidades_lotes(self: object) -> int:
         return self.__unidades_lotes
     
-    def att_produto(self: object, id: int) -> None:
+    def att_produto(self: object) -> None:
         while True:
             opcao = int(input('O que será atualizado no produto\n1) Preço:   2)Quantidade\n'))
             if opcao == 1:
-                novo_valor = float(input(f'Valor atual:{self.valor_venda}\n Novo valor:'))
-                self.__valor_venda = float_para_moeda(novo_valor)
+                novo_valor = float(input(f'Valor atual:{self.valor_venda}\nNovo valor:'))
+                self.__valor_venda = novo_valor
                 self.__horario_de_att = datetime.now()
             if opcao == 2:
-                novo_valor = float(input(f'Valor atual:{self.unidades_lotes}\n Novo valor:'))
+                novo_valor = float(input(f'Valor atual:{self.unidades_lotes}\nNovo valor:'))
                 self.__unidades_lotes = novo_valor
                 self.__horario_de_att = datetime.now()
-            if cont:= int(input('Deseja continuar a fazer alterações no produto?\n 1) Sim\n2)Não ')) == 1:
+            if cont:= int(input('Deseja continuar a fazer alterações no produto?\n1) Sim\n2) Não ')) == 2:
                 break
     
     def venda_produto(self: object, qtd: int) -> float:
@@ -55,7 +55,8 @@ class Produtos:
     def __len__(self: object) -> int:
         return Produtos.produtos_cadastrados
 
-    def __str__(self: object, unidades_compradas: int) -> str:
-        return f'Nome do produto:{self.nome}|Preço de venda do produto:{self.valor_venda}|Preço de compra do produto:{self.valor_compra}'\
-               f'\nUnidades totais do Produto:{self.unidades_lotes}\nUnidades compradas: {unidades_compradas}'
+    def __str__(self: object) -> str:
+        return f'Nome do produto:{self.nome} | Preço de venda do produto:{float_para_moeda(self.valor_venda)}'\
+               f'\n|Preço de compra do produto:{float_para_moeda(self.valor_compra)}'\
+               f'\nUnidades totais do Produto:{self.unidades_lotes}\nHorário de atualização:{self.__horario_de_att}'
         
