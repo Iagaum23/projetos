@@ -1,0 +1,1 @@
+from model.jogador import Jogador
